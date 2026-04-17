@@ -1,6 +1,6 @@
 ---
-name: puda-machines
-description: Discover PUDA machine capabilities and choose the right machines for protocol generation. Use when you need to know more about a machine, how to use a machine, or how to generate commands and protocols for any PUDA-connected machine
+name: ntu-machines
+description: Discover PUDA machine capabilities in ntu lab and choose the right machines for protocol generation. Use when you need to know more about a machine, how to use a machine, or how to generate commands and protocols for any PUDA-connected machine
 ---
 
 # PUDA Machines
