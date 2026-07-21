@@ -14,6 +14,10 @@ Provide machine-selection and capability guidance for PUDA workflows, then load 
 If you are unsure which machine should be used for a command, **ask the user** before proceeding.  
 Do **not** assume.
 
+## Environment-Scoped Vision Gate
+
+Before a physical NTU workflow whose correctness or safety depends on visible setup, load `puda-machine-vision-validation`. Confirm `puda env current` is `ntu`, use the current NTU machine reference and camera/pose, and capture fresh evidence without movement when possible. Never reuse BEARS or IMRE camera calibration, workspace polygons, coordinates, or prior confirmations.
+
 ## Machine Capabilities and When to Use
 
 ### First Machine (`machine_id: "first"`)
@@ -31,6 +35,7 @@ Use this machine when:
 
 Before command generation:
 - Refer to: [first-machine](references/first-machine.md)
+- If visible deck/tray occupancy, labware, tips, tools, or requested positions affect execution, apply `puda-machine-vision-validation` using an NTU-scoped First Machine camera/workspace profile.
 - Run `puda machine commands first` to understand available commands
 - Follow constraints and sequencing in `references/first-machine.md`
 
@@ -49,6 +54,7 @@ Use this machine when:
 
 Before command generation:
 - Refer to: [pipqubotv3-machine](references/pipqubotv3-machine.md)
+- If visible deck/tray occupancy, labware, tips, tools, or requested positions affect execution, apply `puda-machine-vision-validation` using an NTU-scoped PipQuBotV3 camera/workspace profile.
 - Run `puda machine commands pipqubotv3` to understand available commands
 - Follow constraints and sequencing in `references/pipqubotv3-machine.md`
 
@@ -69,6 +75,7 @@ Use this machine when:
 
 Before command generation:
 - Refer to: [biologic-machine](references/biologic-machine.md)
+- If the workflow has a suitable camera and explicit NTU cell/fixture/cable map, apply `puda-machine-vision-validation`; imagery does not prove continuity, channel readiness, or electrical limits.
 - Run `puda machine commands biologic` to understand available commands
 - Follow constraints in `references/biologic-machine.md`
 
@@ -86,6 +93,7 @@ Use this machine when:
 
 Before command generation:
 - Refer to: [centrifuge-machine](references/centrifuge-machine.md)
+- If a suitable passive camera exists, apply `puda-machine-vision-validation` to visible rotor/tube occupancy, balance pattern, lid state, and clearance; telemetry/interlocks must still prove stopped/locked state.
 - Run `puda machine commands centrifuge` to understand available commands
 - Follow constraints in `references/centrifuge-machine.md`
 
@@ -105,6 +113,7 @@ Use this machine when:
 
 Before command generation:
 - Refer to: [dobot-m1pro-machine](references/dobot-m1pro-machine.md)
+- Before camera-guided transfer, apply `puda-machine-vision-validation` with the current NTU camera pose/calibration, source and destination positions, target tube, gripper state, and keep-out zones; validation-only capture must not move the arm.
 - Run `puda machine commands dobot-m1pro` to understand available commands
 - Follow constraints in `references/dobot-m1pro-machine.md`
 
@@ -125,6 +134,7 @@ Use this machine when:
 - The workflow requires holding a plate at temperature while shaking
 
 Before command generation:
+- If visible plate placement, clamp state, or surrounding clearance matters and a suitable passive camera exists, apply `puda-machine-vision-validation`; driver telemetry must still prove stopped/temperature state.
 - Run `puda machine commands bioshake` to understand available commands
 
 ### Balance Machine
@@ -146,6 +156,7 @@ Use this machine when:
 
 Before use:
 - Refer to: [balance-machine](references/balance-machine.md)
+- If a suitable passive camera exists and visible vessel/pan placement matters, apply `puda-machine-vision-validation`; still verify tare, calibration, connectivity, and freshness from balance telemetry.
 - Ask the user for the **Linux serial port** (`/dev/ttyUSB1`, etc.) — do not assume
 - Ensure the edge service is running (`uv run --package balance-edge python edge/balance.py`)
 
@@ -174,6 +185,7 @@ Use this machine when:
 
 Before command generation:
 - Refer to: [opentrons-machine](references/opentrons-machine.md)
+- Before physical execution, apply `puda-machine-vision-validation` with an **NTU-scoped** Opentrons camera/deck profile. If `puda-opentrons-vision-validation` is installed, use it only for OT-2 semantics—never reuse BEARS camera coordinates, slot polygons, or current-scene confirmations.
 - Run `puda machine commands opentrons` to understand available commands
 - Follow all command types, params, sequencing rules, and labware constraints in `references/opentrons-machine.md`
 
@@ -193,6 +205,7 @@ When answering machine-selection questions:
 - If uncertain, ask a direct clarification question instead of guessing.
 
 ## Critical sequencing rules
+0. When execution depends on visible physical setup, run `puda-machine-vision-validation` with an **NTU-scoped** machine/camera profile; do not reuse calibration, geometry, credentials, or confirmations from BEARS/IMRE.
 1. `bioshake` must not be shaking while any machine is operating on a Bioshake position.
 2. `centrifuge` must not be spinning while any machine is operating on a Centrifuge position.
 3. `opentrons` protocols must always end with no tip attached to any pipette.
