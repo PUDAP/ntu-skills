@@ -16,7 +16,7 @@ Do **not** assume.
 
 ## Environment-Scoped Vision Gate
 
-Before a physical NTU workflow whose correctness or safety depends on visible setup, load `puda-machine-vision-validation`. Confirm `puda env current` is `ntu`, use the current NTU machine reference and camera/pose, and capture fresh evidence without movement when possible. Never reuse BEARS or IMRE camera calibration, workspace polygons, coordinates, or prior confirmations.
+Before a physical NTU workflow whose correctness or safety depends on visible setup, load `puda-machine-vision-validation` from `PUDAP/puda-vision-validation` (install with `puda skills install pudap/puda-vision-validation` if unavailable). Confirm `puda env current` is `ntu`, use the current NTU machine reference and camera/pose, and capture fresh evidence without movement when possible. Never reuse BEARS or IMRE camera calibration, workspace polygons, coordinates, or prior confirmations.
 
 ## Machine Capabilities and When to Use
 
